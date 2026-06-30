@@ -134,6 +134,133 @@ function renderSchoolsCards() {
   });
 }
 
+// ── Scores ────────────────────────────────────────────────────────────────────
+const PILLARS = [
+  { key: "neighborhood", label: "🏘️ Vizinhança" },
+  { key: "structure", label: "🏠 Estrutura" },
+  { key: "price", label: "💵 Preço" },
+];
+
+function sumPillar(items) {
+  let score = 0, max = 0;
+  items.forEach(it => {
+    if (it.na) return;            // N/A: excluded from both
+    score += it.score || 0;
+    max += it.max || 0;
+  });
+  return { score: Math.round(score * 100) / 100, max };
+}
+
+function pillarTotals(houseId) {
+  const data = SCORES[houseId];
+  const totals = {};
+  let grandScore = 0, grandMax = 0;
+  PILLARS.forEach(p => {
+    const t = sumPillar(data[p.key]);
+    totals[p.key] = t;
+    grandScore += t.score;
+    grandMax += t.max;
+  });
+  totals.grand = { score: Math.round(grandScore * 100) / 100, max: grandMax };
+  return totals;
+}
+
+function renderScoresSummary() {
+  const header = document.getElementById("scores-summary-header");
+  const body = document.getElementById("scores-summary-body");
+
+  header.innerHTML = `<th>Pilar</th>` + HOUSES.map((h, i) => {
+    const color = h.color || COLORS[i % COLORS.length];
+    return `<th style="color:${color}">${h.nickname}</th>`;
+  }).join("");
+
+  const totalsByHouse = {};
+  HOUSES.forEach(h => totalsByHouse[h.id] = pillarTotals(h.id));
+
+  let rows = "";
+  PILLARS.forEach(p => {
+    rows += `<tr class="score-pillar-row" data-pillar="${p.key}">
+      <td class="metric-label">${p.label} <span class="expand-hint">▸ detalhes</span></td>` +
+      HOUSES.map(h => {
+        const t = totalsByHouse[h.id][p.key];
+        return `<td>${scoreBar(t.score, t.max, h.color)}</td>`;
+      }).join("") + `</tr>`;
+  });
+
+  rows += `<tr class="score-grand-row">
+    <td class="metric-label"><strong>🏆 Total Geral</strong></td>` +
+    HOUSES.map(h => {
+      const t = totalsByHouse[h.id].grand;
+      return `<td><strong>${t.score} / ${t.max}</strong></td>`;
+    }).join("") + `</tr>`;
+
+  body.innerHTML = rows;
+
+  // Click to expand pillar detail
+  document.querySelectorAll(".score-pillar-row").forEach(row => {
+    row.addEventListener("click", () => renderPillarDetail(row.dataset.pillar, row));
+  });
+}
+
+function scoreBar(score, max, color) {
+  const pct = max > 0 ? Math.round((score / max) * 100) : 0;
+  return `<div class="score-cell">
+    <span class="score-num">${score} / ${max}</span>
+    <div class="score-track"><div class="score-fill" style="width:${pct}%;background:${color}"></div></div>
+    <span class="score-pct">${pct}%</span>
+  </div>`;
+}
+
+function renderPillarDetail(pillarKey, rowEl) {
+  const container = document.getElementById("scores-detail");
+  const pillar = PILLARS.find(p => p.key === pillarKey);
+
+  // Toggle off if already showing this pillar
+  if (container.dataset.active === pillarKey) {
+    container.innerHTML = "";
+    container.dataset.active = "";
+    document.querySelectorAll(".score-pillar-row").forEach(r => r.classList.remove("active"));
+    return;
+  }
+  document.querySelectorAll(".score-pillar-row").forEach(r => r.classList.remove("active"));
+  if (rowEl) rowEl.classList.add("active");
+  container.dataset.active = pillarKey;
+
+  // Build a per-criterion comparison table for this pillar
+  const criteria = SCORES[HOUSES[0].id][pillarKey].map(c => c.key);
+
+  let html = `<div class="detail-card">
+    <h3>${pillar.label} — detalhamento por quesito</h3>
+    <div class="table-wrapper">
+      <table class="detail-table">
+        <thead><tr><th>Quesito</th>${HOUSES.map((h,i) =>
+          `<th style="color:${h.color || COLORS[i%COLORS.length]}">${h.nickname}</th>`).join("")}</tr></thead>
+        <tbody>`;
+
+  criteria.forEach((critKey, idx) => {
+    html += `<tr><td class="crit-label">${critKey}</td>`;
+    HOUSES.forEach(h => {
+      const c = SCORES[h.id][pillarKey][idx];
+      html += `<td class="crit-cell">${renderCriterion(c)}</td>`;
+    });
+    html += `</tr>`;
+  });
+
+  html += `</tbody></table></div></div>`;
+  container.innerHTML = html;
+  container.scrollIntoView({ behavior: "smooth", block: "nearest" });
+}
+
+function renderCriterion(c) {
+  if (!c) return "—";
+  const badge = c.na
+    ? `<span class="na-tag">N/A</span>`
+    : `<span class="crit-score">${c.score} / ${c.max}</span>`;
+  const value = c.value ? `<div class="crit-value">${c.value}</div>` : "";
+  const note = c.note ? `<details class="crit-note"><summary>por quê?</summary><p>${c.note}</p></details>` : "";
+  return `${badge}${value}${note}`;
+}
+
 // ── Init ──────────────────────────────────────────────────────────────────────
 document.getElementById("last-updated").textContent = new Date().toLocaleDateString("en-US", {
   year: "numeric", month: "long", day: "numeric"
@@ -141,5 +268,6 @@ document.getElementById("last-updated").textContent = new Date().toLocaleDateStr
 
 renderPriceCards();
 renderMetricsTable();
+renderScoresSummary();
 renderFeaturesCards();
 renderSchoolsCards();
