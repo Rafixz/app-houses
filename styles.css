@@ -1,0 +1,218 @@
+/* ── Reset & Base ─────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: #f4f6fb;
+  color: #222;
+  min-height: 100vh;
+}
+
+/* ── Header ──────────────────────────────────────────────────────────────── */
+header {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  color: #fff;
+  padding: 2.5rem 2rem 2rem;
+  text-align: center;
+}
+
+header h1 { font-size: 2.2rem; font-weight: 700; letter-spacing: -0.5px; }
+header .subtitle { margin-top: 0.4rem; color: #aab4c8; font-size: 1rem; }
+
+/* ── Main layout ─────────────────────────────────────────────────────────── */
+main { max-width: 1400px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+
+.section { margin-bottom: 3rem; }
+.section h2 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 1.2rem;
+  color: #1a1a2e;
+  border-left: 4px solid #4F86C6;
+  padding-left: 0.75rem;
+}
+
+/* ── Cards grid ──────────────────────────────────────────────────────────── */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.card {
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.10);
+  background: #fff;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+}
+
+.card-header {
+  padding: 1.4rem 1.5rem 1.2rem;
+  color: #fff;
+  position: relative;
+}
+.card-header h3 { font-size: 1.3rem; font-weight: 700; }
+.card-address { font-size: 0.82rem; opacity: 0.88; margin-top: 0.3rem; line-height: 1.4; }
+
+.card-badge {
+  display: inline-block;
+  background: rgba(255,255,255,0.25);
+  border-radius: 20px;
+  padding: 0.15rem 0.7rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.card-body { padding: 1.5rem; }
+
+/* ── Big price ───────────────────────────────────────────────────────────── */
+.big-price {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--accent);
+  letter-spacing: -1px;
+  margin-bottom: 0.4rem;
+}
+
+.diff {
+  font-size: 0.82rem;
+  font-weight: 600;
+  display: block;
+  margin-bottom: 1rem;
+}
+.diff.down { color: #3BAF6A; }
+.diff.up   { color: #E05C3A; }
+
+/* ── Stats row ───────────────────────────────────────────────────────────── */
+.stats-row {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.2rem;
+  flex-wrap: wrap;
+}
+.stat {
+  flex: 1;
+  min-width: 60px;
+  background: #f4f6fb;
+  border-radius: 10px;
+  padding: 0.6rem 0.5rem;
+  text-align: center;
+}
+.stat-val { display: block; font-size: 1.1rem; font-weight: 700; color: #1a1a2e; }
+.stat-label { display: block; font-size: 0.68rem; color: #777; margin-top: 0.1rem; text-transform: uppercase; letter-spacing: 0.4px; }
+
+.listing-link {
+  display: inline-block;
+  padding: 0.5rem 1.2rem;
+  background: var(--accent);
+  color: #fff;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: opacity 0.15s;
+}
+.listing-link:hover { opacity: 0.85; }
+
+/* ── Metrics table ───────────────────────────────────────────────────────── */
+.table-wrapper {
+  overflow-x: auto;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  font-size: 0.9rem;
+}
+
+thead tr { background: #1a1a2e; }
+thead th {
+  padding: 1rem 1.2rem;
+  text-align: left;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+thead th:first-child { color: #aab4c8; }
+
+tbody tr:nth-child(even) { background: #f9fafd; }
+tbody tr:hover { background: #eef2ff; }
+
+tbody td {
+  padding: 0.8rem 1.2rem;
+  border-bottom: 1px solid #eee;
+  vertical-align: middle;
+}
+
+.metric-label {
+  font-weight: 600;
+  color: #555;
+  white-space: nowrap;
+}
+
+/* ── Features list ───────────────────────────────────────────────────────── */
+.features-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+.features-list li {
+  font-size: 0.88rem;
+  color: #333;
+  padding: 0.4rem 0.5rem;
+  border-radius: 6px;
+  background: #f4f6fb;
+}
+
+/* ── Schools ─────────────────────────────────────────────────────────────── */
+.school-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.65rem 0;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 0.88rem;
+}
+.school-row:last-child { border-bottom: none; }
+
+.school-level {
+  background: var(--accent);
+  color: #fff;
+  border-radius: 20px;
+  padding: 0.15rem 0.65rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  white-space: nowrap;
+  min-width: 80px;
+  text-align: center;
+}
+.school-name { flex: 1; font-weight: 500; }
+.school-dist { color: #888; font-size: 0.82rem; white-space: nowrap; }
+
+/* ── Footer ──────────────────────────────────────────────────────────────── */
+footer {
+  text-align: center;
+  padding: 1.5rem;
+  color: #aaa;
+  font-size: 0.8rem;
+  background: #1a1a2e;
+}
+
+/* ── Responsive ──────────────────────────────────────────────────────────── */
+@media (max-width: 600px) {
+  header h1 { font-size: 1.6rem; }
+  .big-price { font-size: 1.6rem; }
+  tbody td, thead th { padding: 0.6rem 0.8rem; }
+}

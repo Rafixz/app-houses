@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>House Comparison</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <h1>🏠 House Comparison</h1>
+    <p class="subtitle">Side-by-side analysis of homes you're considering</p>
+  </header>
+
+  <main>
+    <!-- PRICE COMPARISON -->
+    <section class="section">
+      <h2>💰 Price Overview</h2>
+      <div class="cards" id="price-cards"></div>
+    </section>
+
+    <!-- COST METRICS -->
+    <section class="section">
+      <h2>📊 Cost Metrics</h2>
+      <div class="table-wrapper">
+        <table id="metrics-table">
+          <thead>
+            <tr id="metrics-header"></tr>
+          </thead>
+          <tbody id="metrics-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- FEATURES -->
+    <section class="section">
+      <h2>✨ Features & Perks</h2>
+      <div class="cards" id="features-cards"></div>
+    </section>
+
+    <!-- SCHOOLS -->
+    <section class="section">
+      <h2>🏫 Nearby Schools</h2>
+      <div class="cards" id="schools-cards"></div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Last updated: <span id="last-updated"></span></p>
+  </footer>
+
+  <script src="houses.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
