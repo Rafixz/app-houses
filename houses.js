@@ -4,6 +4,7 @@ const HOUSES = [
     color: "#4F86C6",
     nickname: "Maple Leaf",
     address: "1528 NE 97th St, Seattle, WA 98115",
+    image: "images/1528-ne-97th.jpg",
     url: "https://www.compass.com/homedetails/1528-NE-97th-St-Seattle-WA-98115/1OX38Y_pid/",
     status: "Active",
     daysOnMarket: 3,

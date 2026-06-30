@@ -34,8 +34,13 @@ function renderPriceCards() {
       ? `<span class="diff ${priceDiff < 0 ? "down" : "up"}">${priceDiff < 0 ? "▼" : "▲"} ${fmt(Math.abs(priceDiff))} vs last sold (${h.lastSoldYear})</span>`
       : "";
 
+    const photo = h.image
+      ? `<div class="card-photo"><img src="${h.image}" alt="${h.nickname}" loading="lazy" /></div>`
+      : "";
+
     container.innerHTML += `
       <div class="card" style="--accent:${color}">
+        ${photo}
         <div class="card-header" style="background:${color}">
           <span class="card-badge">${h.status}</span>
           <h3>${h.nickname}</h3>
